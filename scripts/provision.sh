@@ -1,13 +1,12 @@
-#!/bin/bash
-TGTDIR="${1:-/usr/local/bin}"
-VERSION="${VERSION:-3.1.2-4}"
-MACHINE="${MACHINE:-$(uname -m)}"
-URL="${URL:-"https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-${MACHINE}-${VERSION}.tar.gz"}"
-DLPATH=${DLPATH:-/tmp}
-FILE="$DLPATH/${URL##*/}"
+!/bin/bash
 
-# Install kiwix-tools from binary tarball
-set -x -e
-wget -O "$FILE" "$URL"
-tar -xvf "$FILE" -C "$TGTDIR" --strip-components 1
-rm -f "$FILE"
+# Get most recent version of 'kiwix-tools' from its channel's feed.xml
+wget https://download.kiwix.org/release/kiwix-tools/feed.xml
+TAR_FILE="$(grep -oP '(?<=<title>)kiwix-tools_linux-x86_64-[0-9].*(?=</title>)' feed.xml | tail -1 )"
+
+# Install latest version of kiwix-tools
+wget -O "${TAR_FILE}" https://download.kiwix.org/release/kiwix-tools/"${TAR_FILE}"
+tar -xvzf "${TAR_FILE}" -C ./bin --strip-components 1
+
+rm feed.xml
+rm "${TAR_FILE}"
