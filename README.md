@@ -36,7 +36,7 @@ $ docker build -t kiwix-serve .
 This starts the container and the Kiwix server, and makes it available on your machine at `http://localhost:8080`.
 
 ```shell
-$ docker run -d --name kiwix-serve -v $(pwd)/zims:/zims:ro -p 8080:8080 kiwix-serve
+$ docker run -d --name kiwix-serve -v $(pwd)/zims:/zims:ro -p 8081:8080 kiwix-serve
 ```
 
 To turn it off:
